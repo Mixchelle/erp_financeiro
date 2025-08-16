@@ -1,3 +1,4 @@
+// api/src/modules/auth/models/company.model.ts
 import { Field, ID, ObjectType } from '@nestjs/graphql';
 @ObjectType()
 export class Company {

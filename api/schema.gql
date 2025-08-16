@@ -1,0 +1,81 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+type AuthPayload {
+  token: String!
+}
+
+input CreateCustomerInput {
+  doc: String
+  email: String
+  name: String!
+}
+
+input CreateProductInput {
+  name: String!
+  priceDefault: Float
+  type: String! = "SERVICE"
+}
+
+type Customer {
+  doc: String
+  email: String
+  id: ID!
+  name: String!
+}
+
+input LoginInput {
+  email: String!
+  password: String!
+}
+
+type Mutation {
+  createCustomer(input: CreateCustomerInput!): Customer!
+  createProduct(input: CreateProductInput!): Product!
+  login(input: LoginInput!): AuthPayload!
+  removeCustomer(id: ID!): ID!
+  removeProduct(id: ID!): ID!
+  updateCustomer(input: UpdateCustomerInput!): Customer!
+  updateProduct(input: UpdateProductInput!): Product!
+}
+
+type Product {
+  companyId: String!
+  id: ID!
+  name: String!
+  priceDefault: Float
+}
+
+type Query {
+  customers: [Customer!]!
+  me: User!
+  products: [Product!]!
+}
+
+enum Role {
+  ADMIN
+  FINANCE
+  VIEWER
+}
+
+input UpdateCustomerInput {
+  doc: String
+  email: String
+  id: ID!
+  name: String
+}
+
+input UpdateProductInput {
+  id: ID!
+  name: String
+  priceDefault: Float
+  type: String = "SERVICE"
+}
+
+type User {
+  email: String!
+  id: ID!
+  name: String!
+  role: Role!
+}
