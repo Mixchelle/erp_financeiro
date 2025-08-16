@@ -1,33 +1,58 @@
-generator client {
-  provider = "prisma-client-js"
-}
+generator client { provider = "prisma-client-js" }
 
-datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
-}
+datasource db { provider = "postgresql" url = env("DATABASE_URL") }
+
+enum Role { ADMIN FINANCE VIEWER }
+enum ProductType { SERVICE PRODUCT }
 
 model Company {
-  id    String @id @default(cuid())
-  name  String
-  cnpj  String?
-  users User[]
+  id        String   @id @default(cuid())
+  name      String
+  cnpj      String?  @unique
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  users     User[]
 }
 
 model User {
   id         String   @id @default(cuid())
+  companyId  String
+  company    Company  @relation(fields: [companyId], references: [id])
   name       String
   email      String   @unique
   password   String
   role       Role     @default(VIEWER)
-  companyId  String
-  company    Company  @relation(fields: [companyId], references: [id])
+  isActive   Boolean  @default(true)
   createdAt  DateTime @default(now())
   updatedAt  DateTime @updatedAt
+
+  @@index([companyId])
 }
 
-enum Role {
-  ADMIN
-  FINANCE
-  VIEWER
+model Customer {
+  id         String   @id @default(cuid())
+  companyId  String
+  name       String
+  email      String?
+  doc        String?  @unique
+  phone      String?
+  address    Json?
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  @@index([companyId])
+  @@index([name])
+}
+
+model Product {
+  id           String      @id @default(cuid())
+  companyId    String
+  name         String
+  type         ProductType @default(SERVICE)
+  priceDefault Decimal?    @db.Numeric(14,2)
+  createdAt    DateTime    @default(now())
+  updatedAt    DateTime    @updatedAt
+
+  @@index([companyId])
+  @@index([name])
 }
