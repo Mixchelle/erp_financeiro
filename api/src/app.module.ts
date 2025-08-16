@@ -2,7 +2,10 @@ import { Module } from '@nestjs/common';
 import { GraphQLModule } from '@nestjs/graphql';
 import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
 import { join } from 'path';
-import { AppResolver } from './app.resolver';
+import { PrismaService } from './common/prisma/prisma.service';
+import { AuthModule } from './modules/auth/auth.module';
+import { CustomersModule } from './modules/customers/customers.module';
+import { ProductsModule } from './modules/products/products.module';
 
 @Module({
   imports: [
@@ -13,7 +16,10 @@ import { AppResolver } from './app.resolver';
       sortSchema: true,
       context: ({ req }) => ({ req }),
     }),
+    AuthModule,
+    CustomersModule,
+    ProductsModule,
   ],
-  providers: [AppResolver],
+  providers: [PrismaService],
 })
 export class AppModule {}
