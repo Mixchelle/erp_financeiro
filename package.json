@@ -1,0 +1,14 @@
+{
+  "name": "erp-financeiro",
+  "private": true,
+  "workspaces": ["api", "web"],
+  "scripts": {
+    "build": "npm -w api run build && npm -w web run build",
+    "dev": "concurrently \"npm -w api run start:dev\" \"npm -w web run start\"",
+    "lint": "npm -w api run lint && npm -w web run lint",
+    "test": "npm -w api run test && npm -w web run test"
+  },
+  "devDependencies": {
+    "concurrently": "^9.0.0"
+  }
+}
